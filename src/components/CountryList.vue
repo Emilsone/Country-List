@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <h1>{{ title }}</h1>
+  <div class="card-box">
+    <h1>{{ heading }}</h1>
     <form>
       <label for="country">Select a Country: </label>
             <select id="country" @change='selectedCountry($event)' v-model="details.country">
@@ -11,13 +11,13 @@
             <select id="state" @change='selectedState($event)' v-model="details.state">
               <option :value="state.name" v-for="state in states" :key="state.id">{{ state.name }}</option>
             </select>
-          <span v-if="noState">This country has  known state</span>
+          <span v-if="emptyState">This country has  no state</span>
 
     <label for="city">Select a City: </label>
             <select id="city" v-model="details.city">
               <option :value="city.name" v-for="city in cities" :key="city.id">{{ city.name }}</option>
             </select>
-            <span v-if="noCity">No city available</span>
+            <span v-if="emptyCity">No city available</span>
     </form>
     <div class="details">
       <h4>County: <span v-if="details.country"> {{ details.country }}</span> </h4>
@@ -29,13 +29,11 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
+  name: 'CountryList',
+  
   data() {
     return {
-      title: 'WEJAPA COUNTRIES',
+      heading: 'WEJAPA COUNTRIES',
       countries: [],
       states: [],
       cities: [],
@@ -44,8 +42,8 @@ export default {
         state: '',
         city: ''
       },
-      noState: false,
-      noCity: false
+      emptyState: false,
+      emptyCity: false
     }
   },
   created() {
@@ -66,7 +64,7 @@ export default {
       const state = this.countries[country]['states'];
 
       if(state.length == " "){
-        this.noState = true
+        this.emptyState = true
       }else{
 
       this.states = state
@@ -79,7 +77,7 @@ export default {
       const city = this.states[state]['cities'];
 
       if(city.length == " "){
-        this.noCity = true
+        this.emptyCity = true
       }else{
         this.cities = city
       }
@@ -88,10 +86,8 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container{
-  /* background: rgb(219, 2, 45); */
+.card-box{
   border: 2px white;
   width: 390px;
   height: 600px;
